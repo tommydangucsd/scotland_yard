@@ -1,0 +1,6 @@
+.Square {
+	border: 1px solid black;
+	margin: 3px;
+	width: 10%;
+	display: inline-block;
+}

@@ -13,6 +13,22 @@ class Map extends Component {
 			< Square />
 			< Square />
 			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
+			< Square />
 		</div>
 		);
 	}
