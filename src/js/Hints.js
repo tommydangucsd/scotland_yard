@@ -4,9 +4,10 @@ import '../css/Hints.css'
 class Hints extends Component {
 	render() {
 		return (
-			<div classNAme="Hints">
+			<div className="Hints">
 				<p> Hint go here </p>
 				<p> Hint go here too </p>
+				<p> dam hints errwhere </p>
 			</div>
 		);
 	}

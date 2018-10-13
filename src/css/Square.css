@@ -1,6 +1,20 @@
-.Square {
+.Square,
+.CopSquare,
+.SpySquare {
 	border: 1px solid black;
 	margin: 3px;
-	width: 10%;
+	width: 8%;
+	height: 13%;
+	height: 70px;
 	display: inline-block;
 }
+
+.CopSquare {
+	background-color: blue;
+}
+
+.SpySquare {
+	background-color: red;
+}
+
+
