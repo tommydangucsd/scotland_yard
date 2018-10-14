@@ -31,6 +31,7 @@ class Map extends Component {
 				hideValidMoves={this.hide_valid_moves}
 				checkTurn={this.check_turn}
 				getSelectedIndex={this.get_selected_index}
+				getGameOver={this.props.getGameOver}
 				/>);
 		}
 		return squares;
@@ -47,10 +48,14 @@ class Map extends Component {
 		return false;
 	}
 
-	// Moves player to designated square
+	// Moves player to designated square.
+	// Puts player value in new square, then removes it from old square.
 	move_player_to(index) {
+		console.log("Selected: ", this.state.selected, " moving to: ", index)
+		if (this.props.getBoardInfo(this.state.selected) == 2 && this.props.getBoardInfo(index) == 1) {
+			this.props.setGameOver(true, "cop");	
+		}
 		this.props.updatePlayerPosition(index);
-		console.log("Calling updateBoard with index: ", index, " and value: ", this.props.getBoardInfo(this.state.selected))
 		this.props.updateBoard(index, this.props.getBoardInfo(this.state.selected));
 		this.props.updateBoard(this.state.selected, 0);
 	}

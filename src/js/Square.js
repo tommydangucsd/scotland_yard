@@ -56,6 +56,7 @@ class Square extends Component {
 	// If not yet selected, shows valid moves if turn.
 	// If selected, deselects valid moves.
 	handle_selection() {
+		if (this.props.getGameOver()) return
 		// Valid move selected
 		if (this.props.value < 0) {
 			this.props.hideValidMoves();

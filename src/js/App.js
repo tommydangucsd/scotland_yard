@@ -4,6 +4,8 @@ import '../css/App.css';
 import Map from'../js/Map.js';
 import Hints from '../js/Hints.js';
 
+let MAX_NUM_TURNS = 3;
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -12,6 +14,7 @@ class App extends Component {
 		this.state = {
 			turn: "spy",
 			game_over: false,
+			winner: "none",
 			board: this.board,
 			turn_number: 0,
 			player_positions: this.player_positions
@@ -23,6 +26,7 @@ class App extends Component {
 		this.update_board = this.update_board.bind(this);
 		this.get_board_info = this.get_board_info.bind(this);
 		this.get_game_over = this.get_game_over.bind(this);
+		this.set_game_over = this.set_game_over.bind(this);
 		this.update_player_positions = this.update_player_positions.bind(this);
 	}
 
@@ -37,8 +41,8 @@ class App extends Component {
 		return (
 			<div>
 				<header> Game info</header>
-				<p> who turn it is: {this.state.turn} </p>
-				<p> turn number: {this.state.turn_number} </p>
+				<p> who turn it is: {this.state.turn}. turn number: {this.state.turn_number} </p>
+				<p> gameover: {this.state.gameover}, winner: {this.state.winner} </p>
 				<p> user pos: {this.state.player_positions.toString()} </p>
 			</div>
 		); 
@@ -76,10 +80,15 @@ class App extends Component {
 		return this.state.board[index];
 	}
 
+	// Gets game over value. Used to prevent commands after victory.
 	get_game_over() {
 		return this.state.game_over;
 	}
 
+	// Sets game over value. Ends the game.
+	set_game_over(res, winner) {
+		this.setState({game_over: res, winner: winner});
+	}
 /* 
 
 	Game Flow Logic
@@ -91,22 +100,25 @@ class App extends Component {
 		if (this.state.turn === "spy") {
 			next = "cop"
 		}
+		if (this.state.turn_number + 1 == MAX_NUM_TURNS) {
+			this.setState({game_over: true, winner: "spy"})
+		}
 		this.setState({turn: next, turn_number: this.state.turn_number+1})
 	}
 
+	//TODO: Set doors that the spy has to reach.
 	start_game() {
-		// Randomly assign spy, cop positions
+		// Randomly assign spy, cop, exit positions
 		let spy = Math.floor(Math.random() * 60);
-		console.log("spy index: " + spy);
+
 		let cop1 = Math.floor(Math.random() * 60);
 		if (cop1 == spy) {
 			cop1 += Math.floor(Math.random() * 59);
 			cop1 = cop1 % 60;
 		}
-		console.log("cop1 index: " + cop1);
-		let new_board = new Array(60).fill(0);
 
 		// Update state information
+		let new_board = new Array(60).fill(0);
 		new_board[spy] = 1;
 		new_board[cop1] = 2;
 		let positions = [spy, cop1]
@@ -131,7 +143,8 @@ class App extends Component {
 					updateBoard={this.update_board} 
 					getBoardInfo={this.get_board_info}
 					updatePlayerPosition={this.update_player_positions} 
-					getGameOver={this.get_game_over}/>
+					getGameOver={this.get_game_over}
+					setGameOver={this.set_game_over}/>
 				<Hints />
       </div>
     );
