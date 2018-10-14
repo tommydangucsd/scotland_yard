@@ -7,10 +7,13 @@ class Map extends Component {
 		super(props);
 	}
 
+	// Creates square components for large map grid
 	draw_squares() {
 		let squares = []
 		for (let i = 0; i < 60; i++) {
-			squares.push(<Square index={i} value={this.props.board[i]} />);
+			squares.push(<Square index={i} value={this.props.board[i]} 
+				turn={this.props.turn} updateBoard={this.props.updateBoard}
+				getBoardInfo={this.props.getBoardInfo} />);
 		}
 		return squares;
 	}
