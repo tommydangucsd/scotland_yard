@@ -1,0 +1,23 @@
+.Square,
+.CopSquare,
+.SpySquare,
+.SelectedSquare {
+	border: 1px solid black;
+	margin: 3px;
+	width: 8%;
+	height: 13%;
+	height: 70px;
+	display: inline-block;
+}
+
+.CopSquare {
+	background-color: blue;
+}
+
+.SpySquare {
+	background-color: red;
+}
+
+.SelectedSquare {
+	background-color: yellow;
+}

@@ -7,6 +7,12 @@ import Hints from '../js/Hints.js';
 let MAX_NUM_TURNS = 3;
 
 class App extends Component {
+	componentDidMount() {
+		fetch('/api')
+		  .then(res => res.json())
+		  .then(text =>console.log(text))
+		  //.then(user => this.setState({ express: user.express })); 
+	  }
 	constructor(props) {
 		super(props);
 		this.board = new Array(60).fill(0);
