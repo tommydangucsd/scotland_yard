@@ -11,6 +11,7 @@ class App extends Component {
 		this.player_positions = new Array(2).fill(0);
 		this.state = {
 			turn: "spy",
+			game_over: false,
 			board: this.board,
 			turn_number: 0,
 			player_positions: this.player_positions
@@ -21,7 +22,15 @@ class App extends Component {
 		this.start_game = this.start_game.bind(this);
 		this.update_board = this.update_board.bind(this);
 		this.get_board_info = this.get_board_info.bind(this);
+		this.get_game_over = this.get_game_over.bind(this);
+		this.update_player_positions = this.update_player_positions.bind(this);
 	}
+
+/*
+
+	Information Access & Display
+
+*/
 
 	// Displays turn
 	get_game_info() {
@@ -40,7 +49,42 @@ class App extends Component {
 		return <p> {this.state.board.toString()} </p>;
 	}
 
+	// Updates board. Passed down so clicking squares will update board.
+	update_board(index, value) {
+		console.log("Updating " + index + " to value " + value);
+		let new_board = this.state.board;
+		new_board[index] = value;
+		console.log(new_board.toString())
+		this.setState({board: new_board});
+	}
 
+	// Update position of the player.
+	update_player_positions(index) {
+		let new_player_positions = this.state.player_positions;
+		let player = 0;
+		if (this.state.turn === "cop") {
+			player = 1;
+		}
+		new_player_positions[player] = index;
+		this.change_move();
+		this.setState({player_positions: new_player_positions});
+	}
+
+	// Gets board value.
+	get_board_info(index) {
+		console.log("on board info: ", this.state.board[index]);
+		return this.state.board[index];
+	}
+
+	get_game_over() {
+		return this.state.game_over;
+	}
+
+/* 
+
+	Game Flow Logic
+
+*/
 	// Updates move and increments turn counter
 	change_move() {
 		let next = "spy"
@@ -69,19 +113,6 @@ class App extends Component {
 		this.setState({board: new_board, player_positions: positions});
 	}
 
-	// Updates board. Passed down so clicking squares will update board.
-	update_board(index, value) {
-		let new_board = this.state.board;
-		new_board[index] = value;
-		this.setState({board: new_board});
-	}
-
-	// Gets board value.
-	get_board_info(index) {
-		console.log("on board info: ", this.state.board[index]);
-		return this.state.board[index];
-	}
-
   render() {
     return (
       <div className="App">
@@ -95,7 +126,12 @@ class App extends Component {
   			<div>
   				{this.printBoard()}
   			</div>
-				<Map board={this.state.board} turn={this.state.turn} updateBoard={this.update_board} getBoardInfo={this.get_board_info}/>
+				<Map board={this.state.board} 
+					turn={this.state.turn} 
+					updateBoard={this.update_board} 
+					getBoardInfo={this.get_board_info}
+					updatePlayerPosition={this.update_player_positions} 
+					getGameOver={this.get_game_over}/>
 				<Hints />
       </div>
     );
